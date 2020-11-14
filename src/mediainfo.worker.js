@@ -13,13 +13,14 @@ const readChunk = (file) => (chunkSize, offset) =>
   })
 
 export const wasm = async (file) => {
-    const MediaInfo = await import("mediainfo.js");
+  const MediaInfo = await import("mediainfo.js");
+  return new Promise(res => {
     MediaInfo.default().then((mediainfo) => {
       mediainfo
       .analyzeData(() => file.size, readChunk(file))
       .then((result) => {
-        console.log("in worker: ",result);
-        return result;
+        res(result);
       })
     })
+  })
 };

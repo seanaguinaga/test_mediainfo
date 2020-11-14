@@ -5,9 +5,10 @@ const { wasm } = worker();
 
 const handleChange = (event) => {
   const file = event.target.files[0];
-  wasm(file).then((result) => {
-    console.log(result);
-  })
+  wasm(file)
+  .then(result => {
+    console.log(result)
+  });
 }
 
 function App() {
