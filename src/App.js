@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 
+import MediaInfo from 'mediainfo.js';
+
 function App() {
   return (
     <div className="App">
