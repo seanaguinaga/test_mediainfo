@@ -1,25 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
 
 import MediaInfo from 'mediainfo.js';
 
+const readChunk = (file) => (chunkSize, offset) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      if (event.target.error) {
+        reject(event.target.error)
+      }
+      resolve(new Uint8Array(event.target.result))
+    }
+    reader.readAsArrayBuffer(file.slice(offset, offset + chunkSize))
+  })
+
+const handleChange = (event) => {
+  const file = event.target.files[0];
+  MediaInfo().then((mediainfo) => {
+    mediainfo
+    .analyzeData(() => file.size, readChunk(file))
+    .then((result) => {
+      console.log(result);
+    })
+  })
+  console.log(event.target.files[0]);
+}
+
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="file" onChange={handleChange} />
     </div>
   );
 }
