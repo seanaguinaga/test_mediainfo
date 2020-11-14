@@ -8,7 +8,7 @@ const wasmFile = resolve(
   'mediainfo.js',
   'dist'
 );
-const dist = resolve('build', 'static', 'js');
+const dist = resolve('.', 'build'/* , 'static', 'js' */);
 
 module.exports = function override(config, env) {
   config.module.rules.push({
@@ -39,10 +39,9 @@ module.exports = function override(config, env) {
   // template from https://www.npmjs.com/package/react-app-rewired
   config.plugins.push(new CopyPlugin({
     patterns: [
-      { from: wasmFile, to: '.' },
+      { from: wasmFile, to: __dirname },
     ],
   }),)
       
-
   return config;
 };
